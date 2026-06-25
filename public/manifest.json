@@ -1,0 +1,78 @@
+{
+  "name": "Deutsch Reise – Allemand de Voyage",
+  "short_name": "DeutschReise",
+  "description": "Apprenez l'allemand pour voyager, même sans internet",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#000f50",
+  "theme_color": "#1a5aff",
+  "orientation": "portrait-primary",
+  "categories": ["education", "lifestyle"],
+  "lang": "fr",
+  "icons": [
+    {
+      "src": "/icons/icon-72.png",
+      "sizes": "72x72",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/icons/icon-96.png",
+      "sizes": "96x96",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/icons/icon-128.png",
+      "sizes": "128x128",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/icons/icon-144.png",
+      "sizes": "144x144",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/icons/icon-152.png",
+      "sizes": "152x152",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/icons/icon-384.png",
+      "sizes": "384x384",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable any"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Lexique",
+      "short_name": "Lexique",
+      "description": "Accéder au lexique de voyage",
+      "url": "/lexique",
+      "icons": [{ "src": "/icons/icon-96.png", "sizes": "96x96" }]
+    },
+    {
+      "name": "Exercices",
+      "short_name": "Exercices",
+      "description": "Pratiquer avec des flashcards",
+      "url": "/exercices",
+      "icons": [{ "src": "/icons/icon-96.png", "sizes": "96x96" }]
+    }
+  ]
+}
