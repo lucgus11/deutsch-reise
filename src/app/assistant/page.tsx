@@ -6,15 +6,14 @@ import { useUserProgress } from '@/hooks/useUserProgress'
 interface Message {
   role: 'user' | 'assistant'
   content: string
-  timestamp: Date
 }
 
 const SCENARIOS = [
-  { id: 'hotel', emoji: '🏨', label: 'À l\'hôtel', prompt: 'Je suis à la réception d\'un hôtel à Berlin. Je veux faire un check-in.' },
-  { id: 'restaurant', emoji: '🍽️', label: 'Au restaurant', prompt: 'Je veux commander un repas dans un restaurant allemand à Munich.' },
-  { id: 'train', emoji: '🚆', label: 'À la gare', prompt: 'Je cherche mon train à la gare de Cologne et j\'ai des questions.' },
-  { id: 'perdu', emoji: '🗺️', label: 'Je suis perdu', prompt: 'Je suis perdu dans une ville allemande et j\'ai besoin d\'aide.' },
-  { id: 'libre', emoji: '💬', label: 'Conversation libre', prompt: '' },
+  { id: 'hotel', emoji: '🏨', label: 'À l\'hôtel', prompt: 'Tu joues le rôle d\'un(e) réceptionniste dans un hôtel à Berlin. Accueille le client chaleureusement en allemand.' },
+  { id: 'restaurant', emoji: '🍽️', label: 'Au restaurant', prompt: 'Tu joues le rôle d\'un(e) serveur/serveuse dans un restaurant bavarois à Munich. Accueille le client en allemand.' },
+  { id: 'train', emoji: '🚆', label: 'À la gare', prompt: 'Tu joues le rôle d\'un(e) agent d\'accueil à la gare de Cologne. Le voyageur semble perdu. Approche-le en allemand.' },
+  { id: 'perdu', emoji: '🗺️', label: 'Je suis perdu', prompt: 'Tu es un(e) passant(e) sympathique dans une rue de Hambourg. Un touriste t\'aborde. Réponds naturellement en allemand.' },
+  { id: 'libre', emoji: '💬', label: 'Conversation libre', prompt: 'Tu es un(e) ami(e) germanophone sympathique. Engage une conversation détendue en allemand avec l\'utilisateur.' },
 ]
 
 export default function AssistantPage() {
@@ -23,6 +22,7 @@ export default function AssistantPage() {
   const [loading, setLoading] = useState(false)
   const [scenario, setScenario] = useState<string | null>(null)
   const [apiKeyMissing, setApiKeyMissing] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
   const isOnline = useOnlineStatus()
   const { progress } = useUserProgress()
@@ -31,95 +31,106 @@ export default function AssistantPage() {
 
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
-  }, [messages])
+  }, [messages, loading])
+
+  const callAPI = async (body: object): Promise<string | null> => {
+    const res = await fetch('/api/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(body),
+    })
+
+    if (res.status === 503) {
+      setApiKeyMissing(true)
+      return null
+    }
+
+    const data = await res.json()
+
+    if (!res.ok || !data.content) {
+      throw new Error(data.error || `HTTP ${res.status}`)
+    }
+
+    return data.content
+  }
 
   const startScenario = async (s: typeof SCENARIOS[0]) => {
     setScenario(s.id)
     setMessages([])
-
-    const systemMessage = s.id === 'libre'
-      ? `Tu es un(e) habitant(e) germanophone sympathique. L'utilisateur apprend l'allemand (niveau ${progress.niveau}). Vous conversez librement. Parle en allemand, puis ajoute une traduction française entre parenthèses pour les phrases complexes. Reste simple et encourageant.`
-      : `Tu joues le rôle d'un(e) local(e) allemand(e) dans ce scénario : ${s.prompt}. L'utilisateur est français, niveau ${progress.niveau} en allemand. Commence la scène de manière naturelle. Parle allemand avec la traduction française entre parenthèses. Guide l'utilisateur avec bienveillance.`
-
+    setError(null)
     setLoading(true)
+
+    const systemPrompt = `${s.prompt}
+L'utilisateur apprend l'allemand, niveau ${progress.niveau || 'A1'}.
+RÈGLES IMPORTANTES :
+- Commence directement la scène sans introduction méta.
+- Parle principalement en allemand.
+- Pour chaque phrase complexe, ajoute la traduction française entre parenthèses.
+- Sois naturel, bienveillant, et aide discrètement l'utilisateur.
+- Réponds en 2-3 phrases maximum.`
+
     try {
-      const res = await fetch('/api/chat', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          messages: [],
-          system: systemMessage,
-          scenario: s.label,
-        }),
+      const content = await callAPI({
+        system: systemPrompt,
+        scenario: s.label,
+        niveau: progress.niveau,
+        initScenario: true,
       })
 
-      if (res.status === 503) {
-        setApiKeyMissing(true)
-        setLoading(false)
-        return
+      if (content) {
+        setMessages([{ role: 'assistant', content }])
       }
-
-      const data = await res.json()
-      if (data.content) {
-        setMessages([{ role: 'assistant', content: data.content, timestamp: new Date() }])
-      }
-    } catch {
+    } catch (err: any) {
+      setError(`Erreur : ${err.message}`)
       setMessages([{
         role: 'assistant',
-        content: '❌ Erreur de connexion. Vérifiez votre connexion Internet.',
-        timestamp: new Date(),
+        content: '⚠️ Impossible de démarrer la conversation. Vérifiez votre clé API Groq et votre connexion.',
       }])
+    } finally {
+      setLoading(false)
     }
-    setLoading(false)
   }
 
   const sendMessage = async () => {
     if (!input.trim() || loading || !isOnline) return
 
-    const userMsg: Message = { role: 'user', content: input.trim(), timestamp: new Date() }
+    const userMsg: Message = { role: 'user', content: input.trim() }
     const newMessages = [...messages, userMsg]
     setMessages(newMessages)
     setInput('')
+    setError(null)
     setLoading(true)
 
     try {
-      const res = await fetch('/api/chat', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          messages: newMessages.map((m) => ({ role: m.role, content: m.content })),
-          scenario: scenario,
-          niveau: progress.niveau,
-        }),
+      const content = await callAPI({
+        messages: newMessages,
+        scenario: scenario,
+        niveau: progress.niveau,
       })
 
-      const data = await res.json()
-      if (data.content) {
-        setMessages([...newMessages, {
-          role: 'assistant',
-          content: data.content,
-          timestamp: new Date(),
-        }])
+      if (content) {
+        setMessages([...newMessages, { role: 'assistant', content }])
       }
-    } catch {
+    } catch (err: any) {
+      setError(`Erreur : ${err.message}`)
       setMessages([...newMessages, {
         role: 'assistant',
-        content: '❌ Erreur. Vérifiez votre connexion.',
-        timestamp: new Date(),
+        content: '❌ Erreur de connexion. Réessayez.',
       }])
+    } finally {
+      setLoading(false)
+      inputRef.current?.focus()
     }
-    setLoading(false)
-    inputRef.current?.focus()
   }
 
-  // Offline
+  // ─── OFFLINE ────────────────────────────────────────────
   if (!isOnline) {
     return (
       <div className="px-4 pt-12 flex flex-col items-center text-center space-y-4">
         <div className="text-6xl">✈️</div>
         <h1 className="font-display text-2xl font-bold text-white">Mode avion détecté</h1>
         <p className="text-slate-400 text-sm max-w-xs">
-          L'Assistant de poche nécessite une connexion Internet pour communiquer avec l'IA.
+          L'Assistant de poche nécessite une connexion Internet.
         </p>
         <div className="card p-4 text-left w-full max-w-xs">
           <p className="text-xs font-semibold text-emerald-400 mb-2">✓ Disponible hors ligne</p>
@@ -133,7 +144,7 @@ export default function AssistantPage() {
     )
   }
 
-  // Écran de sélection de scénario
+  // ─── SÉLECTION SCÉNARIO ─────────────────────────────────
   if (!scenario) {
     return (
       <div className="px-4 pt-8 pb-4 space-y-6">
@@ -148,10 +159,24 @@ export default function AssistantPage() {
 
         {apiKeyMissing && (
           <div className="card p-4 border border-amber-800 bg-amber-900/20">
-            <p className="text-sm text-amber-400 font-semibold mb-1">⚠️ Clé API requise</p>
-            <p className="text-xs text-amber-300/70">
-              Ajoutez votre clé Groq dans les variables d'environnement (<code>GROQ_API_KEY</code>) pour activer l'IA.
+            <p className="text-sm text-amber-400 font-semibold mb-1">⚠️ Clé API Groq manquante</p>
+            <p className="text-xs text-amber-300/80">
+              Ajoutez <code className="bg-black/30 px-1 rounded">GROQ_API_KEY</code> dans vos variables d'environnement Vercel ou dans <code className="bg-black/30 px-1 rounded">.env.local</code>.
             </p>
+            <a
+              href="https://console.groq.com"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-xs text-brand-400 underline mt-2 block"
+            >
+              → Obtenir une clé gratuite sur console.groq.com
+            </a>
+          </div>
+        )}
+
+        {error && (
+          <div className="card p-3 border border-red-800 bg-red-900/20">
+            <p className="text-xs text-red-400">{error}</p>
           </div>
         )}
 
@@ -170,9 +195,6 @@ export default function AssistantPage() {
                 <span className="text-2xl">{s.emoji}</span>
                 <div className="flex-1">
                   <p className="font-semibold text-white group-hover:text-brand-300">{s.label}</p>
-                  {s.prompt && (
-                    <p className="text-xs text-slate-500 mt-0.5 line-clamp-1">{s.prompt}</p>
-                  )}
                 </div>
                 <span className="text-slate-600">→</span>
               </div>
@@ -181,33 +203,31 @@ export default function AssistantPage() {
         </div>
 
         <div className="card p-4 border-l-4 border-l-amber-500">
-          <p className="text-xs font-semibold text-amber-400 uppercase tracking-wider mb-1">
-            💡 Conseil
-          </p>
+          <p className="text-xs font-semibold text-amber-400 uppercase tracking-wider mb-1">💡 Conseil</p>
           <p className="text-sm text-slate-300">
-            N'ayez pas peur de faire des erreurs ! L'assistant est bienveillant et vous guidera.
+            N'ayez pas peur de faire des erreurs ! Écrivez en français ou en allemand, l'assistant s'adapte.
           </p>
         </div>
       </div>
     )
   }
 
-  // Interface de chat
+  // ─── CHAT ────────────────────────────────────────────────
   const currentScenario = SCENARIOS.find((s) => s.id === scenario)
 
   return (
-    <div className="flex flex-col h-[calc(100vh-6rem)]">
-      {/* Header chat */}
-      <div className="px-4 pt-6 pb-3 border-b border-slate-800 flex items-center justify-between">
+    <div className="flex flex-col" style={{ height: 'calc(100dvh - 5.5rem)' }}>
+      {/* Header */}
+      <div className="px-4 pt-6 pb-3 border-b border-slate-800 flex items-center justify-between flex-shrink-0">
         <div className="flex items-center gap-2">
           <span className="text-xl">{currentScenario?.emoji}</span>
           <div>
             <p className="font-semibold text-white text-sm">{currentScenario?.label}</p>
-            <p className="text-xs text-slate-500">Niveau {progress.niveau} · Groq AI</p>
+            <p className="text-xs text-slate-500">Niveau {progress.niveau || 'A1'} · Groq AI</p>
           </div>
         </div>
         <button
-          onClick={() => { setScenario(null); setMessages([]) }}
+          onClick={() => { setScenario(null); setMessages([]); setError(null) }}
           className="text-slate-500 hover:text-white text-sm px-3 py-1.5
                      rounded-lg bg-slate-800 hover:bg-slate-700 transition-all"
         >
@@ -216,14 +236,26 @@ export default function AssistantPage() {
       </div>
 
       {/* Messages */}
-      <div className="flex-1 overflow-y-auto px-4 py-4 space-y-4">
+      <div className="flex-1 overflow-y-auto px-4 py-4 space-y-3 min-h-0">
+
+        {/* Loading initial (premier message) */}
+        {loading && messages.length === 0 && (
+          <div className="flex justify-start">
+            <div className="bg-slate-800 border border-slate-700 px-4 py-3 rounded-2xl rounded-bl-sm">
+              <p className="text-xs text-slate-500 mb-2">L'IA prépare la scène…</p>
+              <div className="flex gap-1">
+                <span className="w-2 h-2 bg-slate-500 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
+                <span className="w-2 h-2 bg-slate-500 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
+                <span className="w-2 h-2 bg-slate-500 rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
+              </div>
+            </div>
+          </div>
+        )}
+
         {messages.map((msg, i) => (
-          <div
-            key={i}
-            className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}
-          >
+          <div key={i} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
             <div
-              className={`max-w-[85%] px-4 py-3 rounded-2xl text-sm leading-relaxed
+              className={`max-w-[85%] px-4 py-3 rounded-2xl text-sm leading-relaxed whitespace-pre-wrap
                           ${msg.role === 'user'
                             ? 'bg-brand-600 text-white rounded-br-sm'
                             : 'bg-slate-800 text-slate-200 rounded-bl-sm border border-slate-700'}`}
@@ -233,43 +265,57 @@ export default function AssistantPage() {
           </div>
         ))}
 
-        {loading && (
+        {/* Loading après envoi user */}
+        {loading && messages.length > 0 && (
           <div className="flex justify-start">
             <div className="bg-slate-800 border border-slate-700 px-4 py-3 rounded-2xl rounded-bl-sm">
               <div className="flex gap-1">
-                <span className="w-1.5 h-1.5 bg-slate-500 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
-                <span className="w-1.5 h-1.5 bg-slate-500 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
-                <span className="w-1.5 h-1.5 bg-slate-500 rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
+                <span className="w-2 h-2 bg-slate-500 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
+                <span className="w-2 h-2 bg-slate-500 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
+                <span className="w-2 h-2 bg-slate-500 rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
               </div>
             </div>
           </div>
         )}
+
+        {error && (
+          <div className="text-center">
+            <p className="text-xs text-red-400 bg-red-900/20 px-3 py-2 rounded-lg inline-block">
+              {error}
+            </p>
+          </div>
+        )}
+
         <div ref={bottomRef} />
       </div>
 
       {/* Input */}
-      <div className="px-4 pb-4 pt-2 border-t border-slate-800">
+      <div className="px-4 pb-3 pt-2 border-t border-slate-800 flex-shrink-0">
         <div className="flex gap-2">
           <input
             ref={inputRef}
             type="text"
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            onKeyDown={(e) => e.key === 'Enter' && sendMessage()}
+            onKeyDown={(e) => e.key === 'Enter' && !e.shiftKey && sendMessage()}
             placeholder="Écrivez en français ou en allemand…"
             className="flex-1 bg-slate-900 border border-slate-700 rounded-xl
                        px-4 py-3 text-sm text-white placeholder-slate-500
                        focus:outline-none focus:border-brand-500 transition-colors"
             disabled={loading}
+            autoComplete="off"
           />
           <button
             onClick={sendMessage}
             disabled={loading || !input.trim()}
             className="bg-brand-500 hover:bg-brand-600 disabled:opacity-40
                        text-white px-4 py-3 rounded-xl transition-all
-                       active:scale-95 disabled:cursor-not-allowed"
+                       active:scale-95 disabled:cursor-not-allowed flex items-center justify-center"
           >
-            ➤
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <line x1="22" y1="2" x2="11" y2="13" />
+              <polygon points="22 2 15 22 11 13 2 9 22 2" />
+            </svg>
           </button>
         </div>
       </div>
