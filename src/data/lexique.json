@@ -1,0 +1,116 @@
+{
+  "categories": [
+    {
+      "id": "hotel",
+      "label": "🏨 Hôtel",
+      "icon": "🏨",
+      "color": "blue",
+      "phrases": [
+        { "id": "h1", "fr": "Bonjour, j'ai une réservation.", "de": "Guten Tag, ich habe eine Reservierung.", "phonetic": "Goo-ten Taak, ikh hah-beh eye-neh Reh-zer-vee-roong", "niveau": "A1", "tags": ["arrivée"] },
+        { "id": "h2", "fr": "J'ai réservé une chambre au nom de…", "de": "Ich habe ein Zimmer auf den Namen… reserviert.", "phonetic": "Ikh hah-beh ayn Tsim-mer owf dayn Nah-men… reh-zer-veert", "niveau": "A1", "tags": ["arrivée"] },
+        { "id": "h3", "fr": "Avez-vous une chambre disponible ?", "de": "Haben Sie ein freies Zimmer?", "phonetic": "Hah-ben zee ayn fry-es Tsim-mer?", "niveau": "A1", "tags": ["arrivée"] },
+        { "id": "h4", "fr": "Combien coûte la chambre par nuit ?", "de": "Was kostet das Zimmer pro Nacht?", "phonetic": "Vas kos-tet das Tsim-mer pro Nakht?", "niveau": "A1", "tags": ["prix"] },
+        { "id": "h5", "fr": "Le petit-déjeuner est-il inclus ?", "de": "Ist das Frühstück inbegriffen?", "phonetic": "Ist das Früü-shtük in-be-grif-fen?", "niveau": "A1", "tags": ["repas"] },
+        { "id": "h6", "fr": "Pouvez-vous m'appeler un taxi ?", "de": "Können Sie mir ein Taxi rufen?", "phonetic": "Kön-nen zee meer ayn Tak-see roo-fen?", "niveau": "A2", "tags": ["transport"] },
+        { "id": "h7", "fr": "À quelle heure est le check-out ?", "de": "Wann ist der Check-out?", "phonetic": "Van ist dayr Check-owt?", "niveau": "A1", "tags": ["départ"] },
+        { "id": "h8", "fr": "Y a-t-il une connexion Wi-Fi ?", "de": "Gibt es WLAN?", "phonetic": "Gipt es Vee-laan?", "niveau": "A1", "tags": ["internet"] },
+        { "id": "h9", "fr": "Ma clé ne fonctionne pas.", "de": "Mein Schlüssel funktioniert nicht.", "phonetic": "Mayn Shlüs-sel funk-tsio-neert nikht", "niveau": "A2", "tags": ["problème"] },
+        { "id": "h10", "fr": "Pouvez-vous apporter des serviettes supplémentaires ?", "de": "Können Sie zusätzliche Handtücher bringen?", "phonetic": "Kön-nen zee tsoo-zets-li-khe Hant-tü-kher bring-en?", "niveau": "A2", "tags": ["chambre"] },
+        { "id": "h11", "fr": "Je voudrais prolonger mon séjour.", "de": "Ich möchte meinen Aufenthalt verlängern.", "phonetic": "Ikh möikh-teh my-nen Owf-ent-halt fer-leng-ern", "niveau": "B1", "tags": ["séjour"] },
+        { "id": "h12", "fr": "Y a-t-il un coffre-fort dans la chambre ?", "de": "Gibt es einen Safe im Zimmer?", "phonetic": "Gipt es eye-nen Safe im Tsim-mer?", "niveau": "A2", "tags": ["sécurité"] }
+      ]
+    },
+    {
+      "id": "restaurant",
+      "label": "🍽️ Restaurant",
+      "icon": "🍽️",
+      "color": "amber",
+      "phrases": [
+        { "id": "r1", "fr": "Une table pour deux personnes, s'il vous plaît.", "de": "Einen Tisch für zwei Personen, bitte.", "phonetic": "Eye-nen Tish füür tsvay Per-zo-nen, bit-teh", "niveau": "A1", "tags": ["arrivée"] },
+        { "id": "r2", "fr": "La carte, s'il vous plaît.", "de": "Die Speisekarte, bitte.", "phonetic": "Dee Shpay-zeh-kar-teh, bit-teh", "niveau": "A1", "tags": ["commande"] },
+        { "id": "r3", "fr": "Qu'est-ce que vous recommandez ?", "de": "Was empfehlen Sie?", "phonetic": "Vas em-pfay-len zee?", "niveau": "A1", "tags": ["commande"] },
+        { "id": "r4", "fr": "Je suis allergique aux arachides.", "de": "Ich bin allergisch gegen Erdnüsse.", "phonetic": "Ikh bin al-lair-gish gay-gen Aird-nüs-seh", "niveau": "A2", "tags": ["allergie"] },
+        { "id": "r5", "fr": "Je suis végétarien(ne).", "de": "Ich bin Vegetarier / Vegetarierin.", "phonetic": "Ikh bin Veh-geh-taa-ree-er / Veh-geh-taa-ree-eh-rin", "niveau": "A1", "tags": ["régime"] },
+        { "id": "r6", "fr": "L'addition, s'il vous plaît.", "de": "Die Rechnung, bitte.", "phonetic": "Dee Rekh-noong, bit-teh", "niveau": "A1", "tags": ["paiement"] },
+        { "id": "r7", "fr": "C'est délicieux !", "de": "Das ist köstlich!", "phonetic": "Das ist köst-likh!", "niveau": "A1", "tags": ["compliment"] },
+        { "id": "r8", "fr": "Je voudrais un verre d'eau.", "de": "Ich hätte gerne ein Glas Wasser.", "phonetic": "Ikh het-teh gair-neh ayn Glaas Vas-ser", "niveau": "A1", "tags": ["boisson"] },
+        { "id": "r9", "fr": "Est-ce que le service est inclus ?", "de": "Ist die Bedienung inbegriffen?", "phonetic": "Ist dee Beh-dee-noong in-beh-grif-fen?", "niveau": "A2", "tags": ["paiement"] },
+        { "id": "r10", "fr": "Je voudrais réserver une table pour ce soir.", "de": "Ich möchte einen Tisch für heute Abend reservieren.", "phonetic": "Ikh möikh-teh eye-nen Tish füür hoy-teh Ah-bent reh-zer-vee-ren", "niveau": "A2", "tags": ["réservation"] },
+        { "id": "r11", "fr": "C'est sans gluten ?", "de": "Ist das glutenfrei?", "phonetic": "Ist das Gloo-ten-fray?", "niveau": "A2", "tags": ["allergie"] },
+        { "id": "r12", "fr": "Pouvez-vous me faire une boîte pour emporter ?", "de": "Können Sie mir das einpacken?", "phonetic": "Kön-nen zee meer das ayn-pak-ken?", "niveau": "B1", "tags": ["commande"] }
+      ]
+    },
+    {
+      "id": "transports",
+      "label": "🚆 Transports",
+      "icon": "🚆",
+      "color": "green",
+      "phrases": [
+        { "id": "t1", "fr": "Où est la gare ?", "de": "Wo ist der Bahnhof?", "phonetic": "Vo ist dayr Baan-hof?", "niveau": "A1", "tags": ["orientation"] },
+        { "id": "t2", "fr": "Un aller simple pour Munich, s'il vous plaît.", "de": "Eine einfache Fahrt nach München, bitte.", "phonetic": "Eye-neh ayn-fakh-eh Fart nakh Mün-khen, bit-teh", "niveau": "A1", "tags": ["billet"] },
+        { "id": "t3", "fr": "Un aller-retour pour Berlin.", "de": "Eine Hin- und Rückfahrt nach Berlin.", "phonetic": "Eye-neh Hin- oont Rük-fart nakh Ber-leen", "niveau": "A1", "tags": ["billet"] },
+        { "id": "t4", "fr": "À quelle heure part le prochain train ?", "de": "Wann fährt der nächste Zug?", "phonetic": "Van fairt dayr nekhs-teh Tsook?", "niveau": "A1", "tags": ["horaires"] },
+        { "id": "t5", "fr": "Ce train s'arrête-t-il à Hambourg ?", "de": "Hält dieser Zug in Hamburg?", "phonetic": "Helt dee-zer Tsook in Ham-boork?", "niveau": "A2", "tags": ["itinéraire"] },
+        { "id": "t6", "fr": "De quel quai part ce train ?", "de": "Von welchem Gleis fährt dieser Zug?", "phonetic": "Fon vel-khem Glays fairt dee-zer Tsook?", "niveau": "A2", "tags": ["gare"] },
+        { "id": "t7", "fr": "Où puis-je acheter un ticket de métro ?", "de": "Wo kann ich ein U-Bahn-Ticket kaufen?", "phonetic": "Vo kan ikh ayn Oo-Baan-Ti-ket kow-fen?", "niveau": "A1", "tags": ["métro"] },
+        { "id": "t8", "fr": "Est-ce que ce bus va à l'aéroport ?", "de": "Fährt dieser Bus zum Flughafen?", "phonetic": "Fairt dee-zer Boos tsoom Flook-haa-fen?", "niveau": "A1", "tags": ["bus"] },
+        { "id": "t9", "fr": "Mon train a du retard.", "de": "Mein Zug hat Verspätung.", "phonetic": "Mayn Tsook hat Fer-shpay-toong", "niveau": "A2", "tags": ["problème"] },
+        { "id": "t10", "fr": "Je voudrais louer une voiture.", "de": "Ich möchte ein Auto mieten.", "phonetic": "Ikh möikh-teh ayn Ow-to mee-ten", "niveau": "A2", "tags": ["location"] },
+        { "id": "t11", "fr": "Comment aller au centre-ville ?", "de": "Wie komme ich in die Innenstadt?", "phonetic": "Vee kom-eh ikh in dee In-en-shtat?", "niveau": "A2", "tags": ["orientation"] },
+        { "id": "t12", "fr": "Y a-t-il une correspondance ?", "de": "Gibt es einen Umstieg?", "phonetic": "Gipt es eye-nen Oom-shteek?", "niveau": "B1", "tags": ["itinéraire"] }
+      ]
+    },
+    {
+      "id": "urgences",
+      "label": "🆘 Urgences",
+      "icon": "🆘",
+      "color": "red",
+      "phrases": [
+        { "id": "u1", "fr": "Au secours !", "de": "Hilfe!", "phonetic": "Hil-feh!", "niveau": "A1", "tags": ["urgence"] },
+        { "id": "u2", "fr": "Appelez la police !", "de": "Rufen Sie die Polizei!", "phonetic": "Roo-fen zee dee Po-li-tsay!", "niveau": "A1", "tags": ["urgence"] },
+        { "id": "u3", "fr": "Appelez une ambulance !", "de": "Rufen Sie einen Krankenwagen!", "phonetic": "Roo-fen zee eye-nen Kran-ken-vaa-gen!", "niveau": "A1", "tags": ["urgence"] },
+        { "id": "u4", "fr": "J'ai besoin d'un médecin.", "de": "Ich brauche einen Arzt.", "phonetic": "Ikh brow-kheh eye-nen Artst", "niveau": "A1", "tags": ["médical"] },
+        { "id": "u5", "fr": "J'ai perdu mon passeport.", "de": "Ich habe meinen Pass verloren.", "phonetic": "Ikh hah-beh my-nen Pass fer-lo-ren", "niveau": "A1", "tags": ["administratif"] },
+        { "id": "u6", "fr": "On m'a volé mon portefeuille.", "de": "Mein Geldbeutel wurde gestohlen.", "phonetic": "Mayn Gelt-boy-tel voor-deh geh-shto-len", "niveau": "A2", "tags": ["vol"] },
+        { "id": "u7", "fr": "Je me suis blessé.", "de": "Ich habe mich verletzt.", "phonetic": "Ikh hah-beh mikh fer-letst", "niveau": "A1", "tags": ["médical"] },
+        { "id": "u8", "fr": "Où est la pharmacie la plus proche ?", "de": "Wo ist die nächste Apotheke?", "phonetic": "Vo ist dee nekhs-teh A-po-tay-keh?", "niveau": "A1", "tags": ["médical"] }
+      ]
+    },
+    {
+      "id": "shopping",
+      "label": "🛍️ Shopping",
+      "icon": "🛍️",
+      "color": "purple",
+      "phrases": [
+        { "id": "s1", "fr": "Combien ça coûte ?", "de": "Wie viel kostet das?", "phonetic": "Vee feel kos-tet das?", "niveau": "A1", "tags": ["prix"] },
+        { "id": "s2", "fr": "Avez-vous ça dans une autre couleur ?", "de": "Haben Sie das in einer anderen Farbe?", "phonetic": "Hah-ben zee das in eye-ner an-de-ren Far-beh?", "niveau": "A2", "tags": ["taille"] },
+        { "id": "s3", "fr": "Puis-je essayer ça ?", "de": "Kann ich das anprobieren?", "phonetic": "Kan ikh das an-pro-bee-ren?", "niveau": "A1", "tags": ["essayage"] },
+        { "id": "s4", "fr": "C'est trop cher.", "de": "Das ist zu teuer.", "phonetic": "Das ist tsoo toy-er", "niveau": "A1", "tags": ["prix"] },
+        { "id": "s5", "fr": "Je vais le prendre.", "de": "Ich nehme es.", "phonetic": "Ikh nay-meh es", "niveau": "A1", "tags": ["achat"] },
+        { "id": "s6", "fr": "Acceptez-vous les cartes de crédit ?", "de": "Akzeptieren Sie Kreditkarten?", "phonetic": "Ak-tsep-tee-ren zee Kre-deet-kar-ten?", "niveau": "A1", "tags": ["paiement"] },
+        { "id": "s7", "fr": "Où sont les soldes ?", "de": "Wo sind die Angebote?", "phonetic": "Vo zint dee An-geh-bo-teh?", "niveau": "A1", "tags": ["prix"] },
+        { "id": "s8", "fr": "Puis-je avoir un sac ?", "de": "Kann ich eine Tüte haben?", "phonetic": "Kan ikh eye-neh Tü-teh hah-ben?", "niveau": "A1", "tags": ["achat"] }
+      ]
+    },
+    {
+      "id": "politesse",
+      "label": "😊 Politesse",
+      "icon": "😊",
+      "color": "teal",
+      "phrases": [
+        { "id": "p1", "fr": "Bonjour (matin)", "de": "Guten Morgen", "phonetic": "Goo-ten Mor-gen", "niveau": "A1", "tags": ["salutation"] },
+        { "id": "p2", "fr": "Bonjour (journée)", "de": "Guten Tag", "phonetic": "Goo-ten Taak", "niveau": "A1", "tags": ["salutation"] },
+        { "id": "p3", "fr": "Bonsoir", "de": "Guten Abend", "phonetic": "Goo-ten Ah-bent", "niveau": "A1", "tags": ["salutation"] },
+        { "id": "p4", "fr": "Au revoir", "de": "Auf Wiedersehen", "phonetic": "Owf Vee-der-zay-en", "niveau": "A1", "tags": ["salutation"] },
+        { "id": "p5", "fr": "Merci beaucoup", "de": "Danke schön", "phonetic": "Dan-keh shöön", "niveau": "A1", "tags": ["politesse"] },
+        { "id": "p6", "fr": "S'il vous plaît", "de": "Bitte", "phonetic": "Bit-teh", "niveau": "A1", "tags": ["politesse"] },
+        { "id": "p7", "fr": "Excusez-moi", "de": "Entschuldigung", "phonetic": "Ent-shool-di-goong", "niveau": "A1", "tags": ["politesse"] },
+        { "id": "p8", "fr": "Je ne comprends pas.", "de": "Ich verstehe nicht.", "phonetic": "Ikh fer-shtay-eh nikht", "niveau": "A1", "tags": ["communication"] },
+        { "id": "p9", "fr": "Parlez-vous français ?", "de": "Sprechen Sie Französisch?", "phonetic": "Shprekh-en zee Fran-tsöö-zish?", "niveau": "A1", "tags": ["communication"] },
+        { "id": "p10", "fr": "Pouvez-vous répéter, s'il vous plaît ?", "de": "Können Sie das bitte wiederholen?", "phonetic": "Kön-nen zee das bit-teh vee-der-ho-len?", "niveau": "A1", "tags": ["communication"] },
+        { "id": "p11", "fr": "Comment dit-on … en allemand ?", "de": "Wie sagt man … auf Deutsch?", "phonetic": "Vee zakt man … owf Doytsh?", "niveau": "A2", "tags": ["communication"] },
+        { "id": "p12", "fr": "Où sont les toilettes ?", "de": "Wo sind die Toiletten?", "phonetic": "Vo zint dee Toy-let-ten?", "niveau": "A1", "tags": ["pratique"] }
+      ]
+    }
+  ]
+}
