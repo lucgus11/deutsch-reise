@@ -1,0 +1,98 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --brand-primary: #1a5aff;
+    --brand-gold: #FFCE00;
+    --brand-red: #DD0000;
+    --bg-deep: #030712;
+    --bg-card: #0f172a;
+    --bg-elevated: #1e293b;
+  }
+
+  * {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    background-color: var(--bg-deep);
+  }
+
+  /* Scrollbar personnalisée */
+  ::-webkit-scrollbar {
+    width: 4px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #334155;
+    border-radius: 2px;
+  }
+}
+
+@layer components {
+  .card {
+    @apply bg-slate-900 rounded-2xl border border-slate-800;
+  }
+
+  .card-elevated {
+    @apply bg-slate-800 rounded-2xl border border-slate-700;
+  }
+
+  .btn-primary {
+    @apply bg-brand-500 hover:bg-brand-600 active:bg-brand-700
+           text-white font-semibold px-6 py-3 rounded-xl
+           transition-all duration-150 active:scale-95
+           disabled:opacity-50 disabled:cursor-not-allowed;
+  }
+
+  .btn-ghost {
+    @apply bg-slate-800 hover:bg-slate-700 active:bg-slate-600
+           text-slate-300 font-medium px-4 py-2 rounded-xl
+           transition-all duration-150 active:scale-95;
+  }
+
+  .badge-niveau {
+    @apply inline-flex items-center px-2 py-0.5 rounded-full
+           text-xs font-bold uppercase tracking-wide;
+  }
+
+  .badge-A1 { @apply bg-emerald-900/60 text-emerald-400 border border-emerald-800; }
+  .badge-A2 { @apply bg-blue-900/60 text-blue-400 border border-blue-800; }
+  .badge-B1 { @apply bg-purple-900/60 text-purple-400 border border-purple-800; }
+
+  /* Flashcard flip */
+  .perspective-1000 {
+    perspective: 1000px;
+  }
+
+  .transform-style-3d {
+    transform-style: preserve-3d;
+  }
+
+  .backface-hidden {
+    backface-visibility: hidden;
+  }
+
+  .rotate-y-180 {
+    transform: rotateY(180deg);
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .safe-pb {
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+  }
+}
+
+/* Animation de la bande drapeau allemand */
+.de-flag-stripe {
+  background: linear-gradient(180deg, #000000 33.3%, #DD0000 33.3% 66.6%, #FFCE00 66.6%);
+}
